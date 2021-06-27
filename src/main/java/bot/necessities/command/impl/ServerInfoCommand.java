@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Message;
 
 import java.awt.*;
 import java.time.Instant;
+import java.util.Objects;
 
 public class ServerInfoCommand extends Command {
     @Override
@@ -41,7 +42,7 @@ public class ServerInfoCommand extends Command {
         eb.setFooter("Requested by " + msg.getAuthor().getName());
         eb.setTimestamp(Instant.now());
         eb.addField("Members: ", String.valueOf(server.getMemberCount()), false);
-        eb.addField("Owner:", server.getOwner().getUser().getName() + "#" + server.getOwner().getUser().getDiscriminator(), false);
+        eb.addField("Owner:", Objects.requireNonNull(server.getOwner()).getUser().getName() + "#" + server.getOwner().getUser().getDiscriminator(), false);
         eb.addField("ID: ", server.getId(), false);
         eb.addField("Boosts: ", String.valueOf(server.getBoostCount()), false);
         msg.getChannel().sendMessage(eb.build()).queue();

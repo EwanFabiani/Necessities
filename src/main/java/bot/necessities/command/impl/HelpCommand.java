@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.entities.Message;
 
 import java.awt.*;
 import java.time.Instant;
-import java.util.Locale;
 
 public class HelpCommand extends Command {
     @Override
@@ -47,22 +46,12 @@ public class HelpCommand extends Command {
             eb.setTimestamp(Instant.now());
             msg.getChannel().sendMessage(eb.build()).queue();
         }else {
-            switch(args[0].toLowerCase()) {
-                case "moderation":
-                    sendCategoryMessage(Category.MODERATION, msg);
-                    break;
-                case "information": case "info":
-                    sendCategoryMessage(Category.INFORMATION, msg);
-                    break;
-                case "fun":
-                    sendCategoryMessage(Category.FUN, msg);
-                    break;
-                case "bot":
-                    sendCategoryMessage(Category.BOT, msg);
-                    break;
-                default:
-                    checkForCommand(args[0].toLowerCase(), msg);
-                    break;
+            switch (args[0].toLowerCase()) {
+                case "moderation" -> sendCategoryMessage(Category.MODERATION, msg);
+                case "information", "info" -> sendCategoryMessage(Category.INFORMATION, msg);
+                case "fun" -> sendCategoryMessage(Category.FUN, msg);
+                case "bot" -> sendCategoryMessage(Category.BOT, msg);
+                default -> checkForCommand(args[0].toLowerCase(), msg);
             }
          }
 

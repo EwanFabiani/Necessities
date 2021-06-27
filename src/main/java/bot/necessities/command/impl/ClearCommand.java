@@ -7,16 +7,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.internal.requests.Route;
 
 import java.awt.*;
-import java.sql.Array;
 import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ClearCommand extends Command {
@@ -42,8 +37,8 @@ public class ClearCommand extends Command {
 
     @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
-        if (msg.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-            if (args[0] == "") {
+        if (Objects.requireNonNull(msg.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
+            if (args[0].equals("")) {
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setColor(new Color(173,216,230));
                 eb.setAuthor("You need to input how many messages you want to clear!");
@@ -65,9 +60,7 @@ public class ClearCommand extends Command {
                         eb.setDescription("You used \"" + args[0] + "\" instead of a number from 1-99!");
                         eb.setTimestamp(Instant.now());
                         eb.setFooter("Error by " + msg.getAuthor().getName());
-                        msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-                            result.delete().queueAfter(10, TimeUnit.SECONDS);
-                        });
+                        msg.getChannel().sendMessage(eb.build()).queue((result) -> result.delete().queueAfter(10, TimeUnit.SECONDS));
                     }else {
                         clear++;
                         List<Message> messages = msgch.getHistory().retrievePast(clear).complete();
@@ -79,9 +72,7 @@ public class ClearCommand extends Command {
                         eb.setAuthor("Successfully deleted " + clear + " Messages!");
                         eb.setFooter("Cleared by " + msg.getAuthor().getName());
                         eb.setTimestamp(Instant.now());
-                        msgch.sendMessage(eb.build()).queue((result) -> {
-                            result.delete().queueAfter(3, TimeUnit.SECONDS);
-                        });
+                        msgch.sendMessage(eb.build()).queue((result) -> result.delete().queueAfter(3, TimeUnit.SECONDS));
                     }
                 }catch (Exception e) {
                     EmbedBuilder eb = new EmbedBuilder();

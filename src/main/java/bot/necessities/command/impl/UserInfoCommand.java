@@ -9,10 +9,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 
 import java.awt.*;
-import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.concurrent.TimeUnit;
 
 public class UserInfoCommand extends Command {
@@ -96,14 +94,14 @@ public class UserInfoCommand extends Command {
     public void sendResult(Member m, Message msg) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-        String roles = "";
-        if (m.getRoles().isEmpty() == false) {
+        StringBuilder roles = new StringBuilder();
+        if (!m.getRoles().isEmpty()) {
             for(Role r : m.getRoles()) {
-                roles = roles + " " + r.getAsMention();
+                roles.append(" ").append(r.getAsMention());
             }
-            roles = roles.substring(1);
+            roles = new StringBuilder(roles.substring(1));
         }else {
-            roles = "None!";
+            roles = new StringBuilder("None!");
         }
 
 
@@ -117,10 +115,10 @@ public class UserInfoCommand extends Command {
             eb.setAuthor("User Information - " + m.getUser().getName() + "#" + m.getUser().getDiscriminator());
         }
         eb.setThumbnail(m.getUser().getAvatarUrl());
-        eb.addField("ID: ", String.valueOf(m.getUser().getId()), false);
+        eb.addField("ID: ", m.getUser().getId(), false);
         eb.addField("Created at: ", m.getTimeCreated().format(formatter) + " UTC", false);
         eb.addField("Joined at: ", m.getTimeJoined().format(formatter) + " UTC", false);
-        eb.addField("Roles: ", String.valueOf(roles), false);
+        eb.addField("Roles: ", roles.toString(), false);
         eb.addField("Necessities Rank: ", m.getId().equals("708697252410949693") ? "The Bot itself!" : Main.isStaffUser(m.getUser()) ? "Staff" : Main.isPremiumUser(m.getUser()) ? "VIP" : "Normal User", false);
         eb.setTimestamp(Instant.now());
         eb.setFooter("Requested by " + msg.getAuthor().getName());

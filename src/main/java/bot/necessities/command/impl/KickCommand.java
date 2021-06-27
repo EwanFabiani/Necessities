@@ -2,7 +2,6 @@ package bot.necessities.command.impl;
 
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
-import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -11,6 +10,7 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class KickCommand extends Command {
@@ -36,8 +36,7 @@ public class KickCommand extends Command {
 
     @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
-        if (msg.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-            String reason = "";
+        if (Objects.requireNonNull(msg.getMember()).hasPermission(Permission.KICK_MEMBERS)) {
             if (args[0].isBlank()) {
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setColor(Color.red);
@@ -52,7 +51,6 @@ public class KickCommand extends Command {
                 });
             }else {
                 String mentionid = args[0];
-                final String finalReason = reason;
                 //MENTION
                 if (args[0].startsWith("<") && args[0].endsWith(">")) {
                     mentionid = mentionid.substring(3, mentionid.length()-1);
@@ -110,7 +108,7 @@ public class KickCommand extends Command {
     }
 
     public void kickMember (Member m, String[] args, Message msg) {
-        String reason = "";
+        StringBuilder reason = new StringBuilder();
 
         if (args == null) {
             m.kick().queue();
@@ -119,14 +117,14 @@ public class KickCommand extends Command {
         }else {
 
             for (int i = 1; i < args.length; i++) {
-                reason = reason + " " + args[i];
+                reason.append(" ").append(args[i]);
             }
-            reason = reason.substring(1);
+            reason = new StringBuilder(reason.substring(1));
 
-            m.kick(reason).queue();
+            m.kick(reason.toString()).queue();
 
             System.out.println("Kicked " + m.getUser().getName() + "#" + m.getUser().getDiscriminator() + " from the Server: " + m.getGuild().getName() + " - ID: " + m.getGuild().getId() + " for the Reason: " + reason);
-            sendKickMessage(msg, m, reason);
+            sendKickMessage(msg, m, reason.toString());
 
         }
 

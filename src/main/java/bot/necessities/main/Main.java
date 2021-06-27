@@ -14,10 +14,12 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.dv8tion.jda.internal.entities.UserById;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.time.Instant;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -25,7 +27,10 @@ public class Main {
 
     public static JDA api;
 
-    public static String token = "NzA4Njk3MjUyNDEwOTQ5Njkz.XrbHvw.5YH_MF9V6ptXbTsSLhp-BDLNNV0";
+    public static String token = "NzA4Njk3MjUyNDEwOTQ5Njkz.XrbHvw.mHGa5EMQ5peYW8sXayC_LSG9dNo";
+
+    public static ArrayList<User> premiumUsers = new ArrayList<User>();
+    public static ArrayList<User> staffUsers = new ArrayList<User>();
 
     public static void main(String[] args) throws LoginException, IllegalArgumentException {
 
@@ -33,6 +38,9 @@ public class Main {
 
         api.addEventListener(new MessageListener());
         api.addEventListener(new OnGuildJoin());
+
+        addPremiumUsers();
+        addStaffUsers();
 
 
 
@@ -64,6 +72,31 @@ public class Main {
             eb.addField("Please Contact TechCrafter_#1179", "This usually happens when the Message length of the Error Message is too big", false);
             eb.setFooter("Bot Error", Main.api.getSelfUser().getAvatarUrl());
             msg.getChannel().sendMessage(eb.build()).queue();
+        }
+    }
+
+    public static void addPremiumUsers() {
+        premiumUsers.add(new UserById(541558942095114251L)); //TechCrafter
+        premiumUsers.add(new UserById(576904104274690058L)); //A-A-Ron
+    }
+
+    public static boolean isPremiumUser(User u) {
+        if (premiumUsers.contains(u)) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static void addStaffUsers() {
+        premiumUsers.add(new UserById(541558942095114251L)); //TechCrafter
+    }
+
+    public static boolean isStaffUser(User u) {
+        if (premiumUsers.contains(u)) {
+            return true;
+        }else {
+            return false;
         }
     }
 

@@ -1,6 +1,7 @@
 package bot.necessities.command.impl;
 
 import bot.necessities.command.Command;
+import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -104,6 +105,8 @@ public class UserInfo extends Command {
         eb.setColor(m.getColor());
         if (m.isOwner()) {
             eb.setAuthor("Server Owner Information - " + m.getUser().getName() + "#" + m.getUser().getDiscriminator());
+        }else if (m.getId().equals("708697252410949693")){
+            eb.setAuthor("Necessities Bot Information - " + m.getUser().getName() + "#" + m.getUser().getDiscriminator());
         }else {
             eb.setAuthor("User Information - " + m.getUser().getName() + "#" + m.getUser().getDiscriminator());
         }
@@ -112,6 +115,7 @@ public class UserInfo extends Command {
         eb.addField("Created at: ", m.getTimeCreated().format(formatter) + " UTC", false);
         eb.addField("Joined at: ", m.getTimeJoined().format(formatter) + " UTC", false);
         eb.addField("Roles: ", String.valueOf(roles), false);
+        eb.addField("Necessities Rank: ", m.getId().equals("708697252410949693") ? "The Bot itself!" : Main.isStaffUser(m.getUser()) ? "Staff" : Main.isPremiumUser(m.getUser()) ? "VIP" : "Normal User", false);
         eb.setTimestamp(Instant.now());
         eb.setFooter("Requested by " + msg.getAuthor().getName());
         msg.getChannel().sendMessage(eb.build()).queue();

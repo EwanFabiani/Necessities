@@ -1,5 +1,6 @@
 package bot.necessities.command.impl;
 
+import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.concurrent.TimeUnit;
 
-public class UserInfo extends Command {
+public class UserInfoCommand extends Command {
     @Override
     public String getAlias() {
         return "userinfo";
@@ -28,6 +29,11 @@ public class UserInfo extends Command {
     @Override
     public String getSyntax() {
         return "-userinfo [user]";
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.INFORMATION;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package bot.necessities.command.impl;
 
+import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -29,10 +30,15 @@ public class KickCommand extends Command {
     }
 
     @Override
+    public Category getCategory() {
+        return Category.MODERATION;
+    }
+
+    @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
         if (msg.getMember().hasPermission(Permission.KICK_MEMBERS)) {
             String reason = "";
-            if (args.length == 0) {
+            if (args[0].isBlank()) {
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setColor(Color.red);
                 eb.setAuthor("Wrong Arguments!");

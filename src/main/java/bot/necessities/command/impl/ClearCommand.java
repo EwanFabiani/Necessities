@@ -1,5 +1,6 @@
 package bot.necessities.command.impl;
 
+import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -32,6 +33,11 @@ public class ClearCommand extends Command {
     @Override
     public String getSyntax() {
         return Main.PREFIX + "clear [MessageCount]";
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.MODERATION;
     }
 
     @Override

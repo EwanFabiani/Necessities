@@ -1,15 +1,10 @@
 package bot.necessities.command;
 
 import bot.necessities.command.impl.*;
-import bot.necessities.listeners.OnGuildJoin;
 import bot.necessities.main.Main;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class CommandManager {
 
@@ -25,7 +20,8 @@ public class CommandManager {
         addCommand(new KickCommand());
         addCommand(new BanCommand());
         addCommand(new ServerInfoCommand());
-        addCommand(new UserInfo());
+        addCommand(new UserInfoCommand());
+        addCommand(new HelpCommand());
 
 
     }

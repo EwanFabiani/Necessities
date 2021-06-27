@@ -22,6 +22,9 @@ public class CommandManager {
         addCommand(new ServerInfoCommand());
         addCommand(new UserInfoCommand());
         addCommand(new HelpCommand());
+        addCommand(new AboutCommand());
+        addCommand(new DiscordCommand());
+        addCommand(new BugCommand());
 
 
     }

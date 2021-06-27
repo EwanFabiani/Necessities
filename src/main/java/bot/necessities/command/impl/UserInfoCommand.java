@@ -37,18 +37,12 @@ public class UserInfoCommand extends Command {
     @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
 
-        if (args.length == 0) {
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setColor(Color.red);
-            eb.setAuthor("Wrong Arguments!");
-            eb.setDescription("You didn't specify what User you want to get info from!");
-            eb.addField("Syntax: ", this.getSyntax(), false);
-            eb.setTimestamp(Instant.now());
-            eb.setFooter("Argument Error by " + msg.getAuthor().getName());
-            msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-                result.delete().queueAfter(10, TimeUnit.SECONDS);
-                msg.delete().queueAfter(10, TimeUnit.SECONDS);
+        if (args[0].isBlank()) {
+            sendResult(msg.getMember(), msg);
+            msg.getChannel().sendMessage("Since you didn't specify the user, here is your user information!").queue((result) -> {
+                result.delete().queueAfter(3, TimeUnit.SECONDS);
             });
+
         }else {
             String mentionid = args[0];
             //MENTION
@@ -72,6 +66,8 @@ public class UserInfoCommand extends Command {
                     } else {
                         sendResult(membernameid, msg);
                     }
+                }else {
+                    sendInvalidUserError(msg, args[0]);
                 }
             }
         }

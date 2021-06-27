@@ -6,14 +6,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.internal.entities.UserById;
 
 import javax.security.auth.login.LoginException;
@@ -29,8 +26,10 @@ public class Main {
 
     public static String token = "NzA4Njk3MjUyNDEwOTQ5Njkz.XrbHvw.mHGa5EMQ5peYW8sXayC_LSG9dNo";
 
-    public static ArrayList<User> premiumUsers = new ArrayList<User>();
-    public static ArrayList<User> staffUsers = new ArrayList<User>();
+    public static String VERSION = "v.0.3.6";
+
+    public static ArrayList<User> premiumUsers = new ArrayList<>();
+    public static ArrayList<User> staffUsers = new ArrayList<>();
 
     public static void main(String[] args) throws LoginException, IllegalArgumentException {
 
@@ -56,7 +55,7 @@ public class Main {
         try {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(Color.BLACK);
-            eb.setAuthor("An Error Occured!");
+            eb.setAuthor("An Error Occurred!");
             eb.setDescription(exception.getClass().toString());
             eb.setTimestamp(Instant.now());
             eb.setFooter("Bot Error");
@@ -81,23 +80,15 @@ public class Main {
     }
 
     public static boolean isPremiumUser(User u) {
-        if (premiumUsers.contains(u)) {
-            return true;
-        }else {
-            return false;
-        }
+        return premiumUsers.contains(u);
     }
 
     public static void addStaffUsers() {
-        premiumUsers.add(new UserById(541558942095114251L)); //TechCrafter
+        staffUsers.add(new UserById(541558942095114251L)); //TechCrafter
     }
 
     public static boolean isStaffUser(User u) {
-        if (premiumUsers.contains(u)) {
-            return true;
-        }else {
-            return false;
-        }
+        return staffUsers.contains(u);
     }
 
 }

@@ -42,6 +42,8 @@ public class HelpCommand extends Command {
             eb.addField("Information", "Get Information through commands!", false);
             eb.addField("Fun", "Fun Commands!", false);
             eb.addField("Bot", "Necessities related Commands!", false);
+            eb.addBlankField(false);
+            eb.addField("Arguments", "{Required Argument} - [Optional Argument]", false);
             eb.setFooter("Requested by " + msg.getAuthor().getName());
             eb.setTimestamp(Instant.now());
             msg.getChannel().sendMessage(eb.build()).queue();

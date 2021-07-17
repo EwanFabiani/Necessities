@@ -1,8 +1,11 @@
 package bot.necessities.command.impl;
 
+import bot.necessities.comfirmcommands.ConfirmCommand;
+import bot.necessities.comfirmcommands.ConfirmCommandManager;
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.command.CommandManager;
+import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -22,7 +25,7 @@ public class HelpCommand extends Command {
 
     @Override
     public String getSyntax() {
-        return "-help [category/command]";
+        return Main.PREFIX + "help [category/command]";
     }
 
     @Override
@@ -69,6 +72,12 @@ public class HelpCommand extends Command {
                 eb.addField(c.getAlias(), c.getDescription(), false);
             }
         }
+        for(ConfirmCommand co : ConfirmCommandManager.getConfirmCommands()) {
+            if (co.getCategory().equals(category)) {
+                eb.addField(co.getAlias(), co.getDescription(), false);
+            }
+        }
+
         eb.setFooter("Requested by " + msg.getAuthor().getName());
         eb.setTimestamp(Instant.now());
         msg.getChannel().sendMessage(eb.build()).queue();

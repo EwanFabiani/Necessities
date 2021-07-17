@@ -2,6 +2,7 @@ package bot.necessities.command.impl;
 
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
+import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -23,7 +24,7 @@ public class ServerInfoCommand extends Command {
 
     @Override
     public String getSyntax() {
-        return "-serverinfo";
+        return Main.PREFIX + "serverinfo";
     }
 
     @Override

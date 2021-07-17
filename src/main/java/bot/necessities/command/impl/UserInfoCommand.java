@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Role;
 import java.awt.*;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class UserInfoCommand extends Command {
@@ -38,10 +39,8 @@ public class UserInfoCommand extends Command {
     public void onCommand(String command, String[] args, Message msg) throws Exception {
 
         if (args[0].isBlank()) {
-            sendResult(msg.getMember(), msg);
-            msg.getChannel().sendMessage("Since you didn't specify the user, here is your user information!").queue((result) -> {
-                result.delete().queueAfter(3, TimeUnit.SECONDS);
-            });
+            sendResult(Objects.requireNonNull(msg.getMember()), msg);
+            msg.getChannel().sendMessage("Since you didn't specify the user, here is your user information!").queue((result) -> result.delete().queueAfter(3, TimeUnit.SECONDS));
 
         }else {
             String mentionid = args[0];
@@ -115,7 +114,7 @@ public class UserInfoCommand extends Command {
         eb.addField("Created at: ", m.getTimeCreated().format(formatter) + " UTC", false);
         eb.addField("Joined at: ", m.getTimeJoined().format(formatter) + " UTC", false);
         eb.addField("Roles: ", roles.toString(), false);
-        eb.addField("Necessities Rank: ", m.getId().equals("708697252410949693") ? "The Bot itself!" : Main.isStaffUser(m.getUser()) ? "Staff" : Main.isPremiumUser(m.getUser()) ? "VIP" : "Normal User", false);
+        eb.addField("Necessities Rank: ", "Not finished yet!", false);
         eb.setTimestamp(Instant.now());
         eb.setFooter("Requested by " + msg.getAuthor().getName());
         msg.getChannel().sendMessage(eb.build()).queue();

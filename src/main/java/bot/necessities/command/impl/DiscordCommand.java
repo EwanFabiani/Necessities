@@ -22,7 +22,7 @@ public class DiscordCommand extends Command {
 
     @Override
     public String getSyntax() {
-        return "-discord";
+        return Main.PREFIX + "discord";
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DiscordCommand extends Command {
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(new Color(128,0,128));
-        eb.setAuthor("Click me to join the Necessities Discord Server!", "https://discord.gg/KKQdtFfvMj");
+        eb.setAuthor("Click me to join the Necessities Discord Server!", "https://scam.com"); // https://discord.gg/KKQdtFfvMj
         eb.setFooter("Necessities Bot", Main.api.getSelfUser().getEffectiveAvatarUrl());
         msg.getChannel().sendMessage(eb.build()).queue();
 

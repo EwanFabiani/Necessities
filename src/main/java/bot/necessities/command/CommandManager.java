@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class CommandManager {
 
-    private static ArrayList<Command> commands;
+    private static ArrayList commands;
 
     public CommandManager() {
 
@@ -24,7 +24,6 @@ public class CommandManager {
         addCommand(new HelpCommand());
         addCommand(new AboutCommand());
         addCommand(new DiscordCommand());
-        addCommand(new BugCommand());
 
 
     }

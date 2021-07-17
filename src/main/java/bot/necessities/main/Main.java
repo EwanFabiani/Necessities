@@ -1,17 +1,17 @@
 package bot.necessities.main;
 
+import bot.necessities.comfirmcommands.ConfirmCommandType;
 import bot.necessities.listeners.MessageListener;
 import bot.necessities.listeners.OnGuildJoin;
+import bot.necessities.listeners.onReactionAdd;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import net.dv8tion.jda.internal.entities.UserById;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -28,8 +28,7 @@ public class Main {
 
     public static String VERSION = "v.0.3.6";
 
-    public static ArrayList<User> premiumUsers = new ArrayList<>();
-    public static ArrayList<User> staffUsers = new ArrayList<>();
+    public static ArrayList<ConfirmCommandType> confirmCommandTypes = new ArrayList<>();
 
     public static void main(String[] args) throws LoginException, IllegalArgumentException {
 
@@ -37,13 +36,7 @@ public class Main {
 
         api.addEventListener(new MessageListener());
         api.addEventListener(new OnGuildJoin());
-
-        addPremiumUsers();
-        addStaffUsers();
-
-
-
-
+        api.addEventListener(new onReactionAdd());
 
         api.getPresence().setActivity(Activity.playing("with Java Discord Api"));
 
@@ -62,7 +55,7 @@ public class Main {
             eb.addField("Error Message: ", exception.getMessage(), false);
             eb.addField("Please Contact TechCrafter_#1179!", "He will need to fix this :/", false);
             msg.getChannel().sendMessage(eb.build()).queue();
-        }catch (Exception e) {
+        } catch (Exception e) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(Color.BLACK);
             eb.setTimestamp(Instant.now());
@@ -73,22 +66,4 @@ public class Main {
             msg.getChannel().sendMessage(eb.build()).queue();
         }
     }
-
-    public static void addPremiumUsers() {
-        premiumUsers.add(new UserById(541558942095114251L)); //TechCrafter
-        premiumUsers.add(new UserById(576904104274690058L)); //A-A-Ron
-    }
-
-    public static boolean isPremiumUser(User u) {
-        return premiumUsers.contains(u);
-    }
-
-    public static void addStaffUsers() {
-        staffUsers.add(new UserById(541558942095114251L)); //TechCrafter
-    }
-
-    public static boolean isStaffUser(User u) {
-        return staffUsers.contains(u);
-    }
-
 }

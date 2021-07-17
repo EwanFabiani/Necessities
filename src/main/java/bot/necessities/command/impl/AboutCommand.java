@@ -22,7 +22,7 @@ public class AboutCommand extends Command {
 
     @Override
     public String getSyntax() {
-        return "-about";
+        return Main.PREFIX + "about";
     }
 
     @Override

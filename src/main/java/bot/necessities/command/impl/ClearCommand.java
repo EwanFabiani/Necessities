@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.exceptions.ContextException;
 
 import java.awt.*;
 import java.time.Instant;
@@ -60,7 +61,7 @@ public class ClearCommand extends Command {
                         eb.setDescription("You used \"" + args[0] + "\" instead of a number from 1-99!");
                         eb.setTimestamp(Instant.now());
                         eb.setFooter("Error by " + msg.getAuthor().getName());
-                        msg.getChannel().sendMessage(eb.build()).queue((result) -> result.delete().queueAfter(10, TimeUnit.SECONDS));
+                        msg.getChannel().sendMessage(eb.build()).queue();
                     }else {
                         clear++;
                         List<Message> messages = msgch.getHistory().retrievePast(clear).complete();
@@ -73,6 +74,7 @@ public class ClearCommand extends Command {
                         eb.setFooter("Cleared by " + msg.getAuthor().getName());
                         eb.setTimestamp(Instant.now());
                         msgch.sendMessage(eb.build()).queue((result) -> result.delete().queueAfter(3, TimeUnit.SECONDS));
+
                     }
                 }catch (Exception e) {
                     EmbedBuilder eb = new EmbedBuilder();
@@ -81,10 +83,7 @@ public class ClearCommand extends Command {
                     eb.setDescription("You used \"" + args[0] + "\" instead of a number from 1-99!");
                     eb.setTimestamp(Instant.now());
                     eb.setFooter("Error by " + msg.getAuthor().getName());
-                    msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-                        result.delete().queueAfter(10, TimeUnit.SECONDS);
-                        msg.delete().queueAfter(10, TimeUnit.SECONDS);
-                    });
+                    msg.getChannel().sendMessage(eb.build()).queue();
                     e.printStackTrace();
                 }
             }

@@ -68,7 +68,7 @@ public class ConfirmCommandManager {
 
          msg.reply(eb).queue((result) -> {
             result.addReaction("\u2705");
-            id = result.getIdLong();
+            //id = result.getIdLong();
         });
 
         System.out.println("test");

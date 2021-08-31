@@ -24,7 +24,7 @@ public class CommandManager {
         addCommand(new HelpCommand());
         addCommand(new AboutCommand());
         addCommand(new DiscordCommand());
-
+        addCommand(new WeatherCommand());
 
     }
 

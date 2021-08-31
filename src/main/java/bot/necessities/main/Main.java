@@ -30,6 +30,8 @@ public class Main {
 
     public static ArrayList<ConfirmCommandType> confirmCommandTypes = new ArrayList<>();
 
+    public static String KEY = "e8495f354dce423cbb2100942211508";
+
     public static void main(String[] args) throws LoginException, IllegalArgumentException {
 
         api = JDABuilder.createDefault(token).setChunkingFilter(ChunkingFilter.ALL).setMemberCachePolicy(MemberCachePolicy.ALL).enableIntents(GatewayIntent.GUILD_MEMBERS).build();
@@ -53,7 +55,7 @@ public class Main {
             eb.setTimestamp(Instant.now());
             eb.setFooter("Bot Error");
             eb.addField("Error Message: ", exception.getMessage(), false);
-            eb.addField("Please Contact TechCrafter_#1179!", "He will need to fix this :/", false);
+            eb.addField("Please Contact TechCrafter_#1179!", "", false);
             msg.getChannel().sendMessage(eb.build()).queue();
         } catch (Exception e) {
             EmbedBuilder eb = new EmbedBuilder();

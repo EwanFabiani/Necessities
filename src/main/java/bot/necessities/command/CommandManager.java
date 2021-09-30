@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public class CommandManager {
 
-    private static ArrayList commands;
+    private static ArrayList<Command> commands;
 
     public CommandManager() {
 
-        commands = new ArrayList();
+        commands = new ArrayList<>();
 
         addCommand(new PingCommand());
         addCommand(new InviteCommand());
@@ -25,6 +25,9 @@ public class CommandManager {
         addCommand(new AboutCommand());
         addCommand(new DiscordCommand());
         addCommand(new WeatherCommand());
+        addCommand(new AxolotlCommand());
+        addCommand(new TimeCommand());
+        addCommand(new TestCommand());
 
     }
 

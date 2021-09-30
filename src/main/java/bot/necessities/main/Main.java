@@ -1,9 +1,7 @@
 package bot.necessities.main;
 
-import bot.necessities.comfirmcommands.ConfirmCommandType;
 import bot.necessities.listeners.MessageListener;
 import bot.necessities.listeners.OnGuildJoin;
-import bot.necessities.listeners.onReactionAdd;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -16,8 +14,6 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.time.Instant;
-import java.util.ArrayList;
-
 public class Main {
 
     public static String PREFIX = "-";
@@ -28,9 +24,9 @@ public class Main {
 
     public static String VERSION = "v.0.3.6";
 
-    public static ArrayList<ConfirmCommandType> confirmCommandTypes = new ArrayList<>();
-
     public static String KEY = "e8495f354dce423cbb2100942211508";
+
+    public static JDA hacked;
 
     public static void main(String[] args) throws LoginException, IllegalArgumentException {
 
@@ -38,9 +34,8 @@ public class Main {
 
         api.addEventListener(new MessageListener());
         api.addEventListener(new OnGuildJoin());
-        api.addEventListener(new onReactionAdd());
 
-        api.getPresence().setActivity(Activity.playing("with Java Discord Api"));
+        api.getPresence().setActivity(Activity.playing("with FireCreeper82"));
 
         System.out.println("Starting the Bot!");
 
@@ -68,4 +63,7 @@ public class Main {
             msg.getChannel().sendMessage(eb.build()).queue();
         }
     }
+
+
+
 }

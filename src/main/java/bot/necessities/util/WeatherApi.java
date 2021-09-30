@@ -1,4 +1,4 @@
-package bot.necessities.weather;
+package bot.necessities.util;
 
 import bot.necessities.main.Main;
 
@@ -15,7 +15,7 @@ public class WeatherApi {
 
         callUrl.append("/current.json");
         callUrl.append("?key=").append(Main.KEY);
-        callUrl.append("&q=").append(city)
+        callUrl.append("&q=").append(city);
 
 
         if (aqi) {

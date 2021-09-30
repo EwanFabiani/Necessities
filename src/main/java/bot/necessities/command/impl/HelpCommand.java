@@ -1,7 +1,5 @@
 package bot.necessities.command.impl;
 
-import bot.necessities.comfirmcommands.ConfirmCommand;
-import bot.necessities.comfirmcommands.ConfirmCommandManager;
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.command.CommandManager;
@@ -70,11 +68,6 @@ public class HelpCommand extends Command {
         for (Command c : CommandManager.getCommands()) {
             if (c.getCategory().equals(category)) {
                 eb.addField(c.getAlias(), c.getDescription(), false);
-            }
-        }
-        for(ConfirmCommand co : ConfirmCommandManager.getConfirmCommands()) {
-            if (co.getCategory().equals(category)) {
-                eb.addField(co.getAlias(), co.getDescription(), false);
             }
         }
 

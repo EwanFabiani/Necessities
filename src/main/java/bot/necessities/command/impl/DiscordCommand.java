@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.awt.*;
-import java.time.Instant;
 
 public class DiscordCommand extends Command {
     @Override

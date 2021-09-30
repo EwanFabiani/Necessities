@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.exceptions.ContextException;
 
 import java.awt.*;
 import java.time.Instant;
@@ -54,7 +53,7 @@ public class ClearCommand extends Command {
                 try {
                     int clear = Integer.parseInt(args[0]);
                     MessageChannel msgch = msg.getChannel();
-                    if (clear < 1 || clear > 100) {
+                    if (clear < 1 || clear > 99) {
                         EmbedBuilder eb = new EmbedBuilder();
                         eb.setColor(new Color(173,216,230));
                         eb.setAuthor("You need to use a Number for Messages to clear");

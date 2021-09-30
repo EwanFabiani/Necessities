@@ -1,6 +1,5 @@
 package bot.necessities.listeners;
 
-import bot.necessities.comfirmcommands.ConfirmCommandManager;
 import bot.necessities.command.CommandManager;
 import bot.necessities.main.Main;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,7 +11,6 @@ public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e) {
         if (e.getMessage().getContentRaw().startsWith(Main.PREFIX)) {
             CommandManager.getInstance().callCommands(e.getMessage().getContentRaw().substring(1), e.getMessage());
-            ConfirmCommandManager.getInstance().callCommands(e.getMessage().getContentRaw().substring(1), e.getMessage());
         }
     }
 

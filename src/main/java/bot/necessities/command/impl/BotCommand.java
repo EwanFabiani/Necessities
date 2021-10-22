@@ -3,35 +3,33 @@ package bot.necessities.command.impl;
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
-import bot.necessities.util.JSON;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
-import org.json.simple.JSONObject;
 
 import java.awt.*;
-import java.net.URL;
+import java.time.Instant;
 
-public class AxolotlCommand extends Command {
+public class BotCommand extends Command {
 
     @Override
     public String getAlias() {
-        return "axolotl";
+        return "bot";
     }
 
     @Override
     public String getDescription() {
-        return "Get Axolotl Pictures!";
+        return "Get Information about Necessities";
     }
 
     @Override
     public String getSyntax() {
-        return Main.PREFIX + "axolotl";
+        return Main.PREFIX + "bot";
     }
 
     @Override
     public Category getCategory() {
-        return Category.FUN;
+        return Category.BOT;
     }
 
     @Override
@@ -42,18 +40,12 @@ public class AxolotlCommand extends Command {
     @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
 
-        URL url = new URL("https://axoltlapi.herokuapp.com/");
-        JSONObject data = JSON.fromUrl(url);
-        String urlimg = ((String) data.get("url"));
-
-
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setAuthor("Here is your Axolotl Picture!");
-        eb.setImage(urlimg);
-        eb.setDescription((CharSequence) data.get("facts"));
-        eb.setColor(Color.green);
-        eb.setFooter("Powered by TheAxolotlApi");
-
+        eb.setColor(Color.blue);
+        eb.setAuthor("Bot Info - Necessities");
+        eb.addField("Servers", String.valueOf(Main.api.getGuilds().size()), true);
+        eb.setFooter("Necessities Bot Information", Main.api.getSelfUser().getAvatarUrl());
+        eb.setTimestamp(Instant.now());
         msg.reply(eb.build()).queue();
 
     }

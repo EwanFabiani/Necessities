@@ -3,9 +3,11 @@ package bot.necessities.command.impl;
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
+import bot.necessities.util.ErrorCreator;
 import bot.necessities.util.JSON;
 import bot.necessities.util.WeatherApi;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import org.json.simple.JSONObject;
 
@@ -33,6 +35,11 @@ public class WeatherCommand extends Command {
         return Category.INFORMATION;
     }
 
+    @Override
+    public Permission requiredPermission() {
+        return null;
+    }
+
     public String city = null;
 
     @SuppressWarnings("StringConcatenationInLoop")
@@ -51,11 +58,7 @@ public class WeatherCommand extends Command {
             JSONObject data = JSON.fromUrl(url);
 
             if (data == null) {
-                EmbedBuilder eb = new EmbedBuilder();
-                eb.setAuthor("Invalid Request!");
-                eb.setDescription("An error occurred! The request was invalid!");
-                msg.reply(eb.build()).queue();
-                return;
+                ErrorCreator.invalidRequestError(msg);
             }
 
 
@@ -83,10 +86,7 @@ public class WeatherCommand extends Command {
             msg.reply(eb.build()).queue();
 
         }else {
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setColor(Color.RED);
-            eb.setTitle("No Arguments!");
-            msg.reply(eb.build()).queue();
+            ErrorCreator.missingArgumentsError(msg, this, "You didn't specify a city!");
         }
     }
 }

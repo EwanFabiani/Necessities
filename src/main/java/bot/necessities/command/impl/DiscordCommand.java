@@ -4,11 +4,13 @@ import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.awt.*;
 
 public class DiscordCommand extends Command {
+
     @Override
     public String getAlias() {
         return "discord";
@@ -27,6 +29,11 @@ public class DiscordCommand extends Command {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public Permission requiredPermission() {
+        return null;
     }
 
     @Override

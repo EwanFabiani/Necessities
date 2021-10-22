@@ -5,6 +5,7 @@ public enum Category {
     MODERATION,
     INFORMATION,
     FUN,
-    BOT
+    BOT,
+    HIDDEN
 
 }

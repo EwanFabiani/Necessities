@@ -5,12 +5,14 @@ import bot.necessities.command.Command;
 import bot.necessities.command.CommandManager;
 import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.awt.*;
 import java.time.Instant;
 
 public class HelpCommand extends Command {
+
     @Override
     public String getAlias() {
         return "help";
@@ -29,6 +31,11 @@ public class HelpCommand extends Command {
     @Override
     public Category getCategory() {
         return Category.BOT;
+    }
+
+    @Override
+    public Permission requiredPermission() {
+        return null;
     }
 
     @Override

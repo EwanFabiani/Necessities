@@ -1,4 +1,4 @@
-package bot.necessities.command.impl;
+package bot.necessities.command.impl.hidden;
 
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
@@ -10,25 +10,26 @@ import net.dv8tion.jda.api.entities.Message;
 import java.awt.*;
 import java.time.Instant;
 
-public class PingCommand extends Command {
+public class ShutdownCommand extends Command {
+
     @Override
     public String getAlias() {
-        return "ping";
+        return "shutdown";
     }
 
     @Override
     public String getDescription() {
-        return "Gets the Ping of the Bot";
+        return "Shutdown the bot [HIDDEN COMMAND]";
     }
 
     @Override
     public String getSyntax() {
-        return Main.PREFIX + "ping";
+        return Main.PREFIX + "shutdown";
     }
 
     @Override
     public Category getCategory() {
-        return Category.BOT;
+        return Category.HIDDEN;
     }
 
     @Override
@@ -39,21 +40,15 @@ public class PingCommand extends Command {
     @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
 
-        long ping = Main.api.getGatewayPing();
-
-        EmbedBuilder eb = new EmbedBuilder();
-        if (ping < 175) {
-            eb.setColor(Color.green);
-        }else if (ping < 250) {
-            eb.setColor(Color.yellow);
-        }else {
+        if (msg.getAuthor().getIdLong() == 541558942095114251L) {
+            EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(Color.red);
+            eb.setAuthor("Shutting down Necessities");
+            eb.setDescription("Necessities is currently shutting down!");
+            eb.setFooter("Don't forget that this might break things!!");
+            eb.setTimestamp(Instant.now());
+            msg.reply(eb.build()).queue();
+            Main.api.shutdown();
         }
-        eb.setTitle("Ping");
-        eb.addField("Bot Ping", ping + "ms", false);
-        eb.setFooter("Requested by " + msg.getAuthor().getName());
-        eb.setTimestamp(Instant.now());
-
-        msg.reply(eb.build()).queue();
     }
 }

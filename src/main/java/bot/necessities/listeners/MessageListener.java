@@ -9,6 +9,7 @@ public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
+
         if (e.getMessage().getContentRaw().startsWith(Main.PREFIX)) {
             CommandManager.getInstance().callCommands(e.getMessage().getContentRaw().substring(1), e.getMessage());
         }

@@ -4,6 +4,7 @@ import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -33,8 +34,13 @@ public class ServerInfoCommand extends Command {
     }
 
     @Override
+    public Permission requiredPermission() {
+        return null;
+    }
+
+    @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
-        System.out.println("Arrived here");
+
         Guild server = msg.getGuild();
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(Color.blue);

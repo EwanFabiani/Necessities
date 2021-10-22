@@ -2,7 +2,9 @@ package bot.necessities.command.impl;
 
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
+import bot.necessities.util.ErrorCreator;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
@@ -35,6 +37,11 @@ public class UserInfoCommand extends Command {
     }
 
     @Override
+    public Permission requiredPermission() {
+        return null;
+    }
+
+    @Override
     public void onCommand(String command, String[] args, Message msg) throws Exception {
 
         if (args[0].isBlank()) {
@@ -50,7 +57,7 @@ public class UserInfoCommand extends Command {
                 if (mentionid.matches("^[0-9]*$")) {
                     Member membernamemention = msg.getGuild().getMemberById(mentionid);
                     if (membernamemention == null) {
-                        sendInvalidUserError(msg, args[0]);
+                        ErrorCreator.invalidArgumentError(msg, "The User \"" + args[0] + "\" isn't a valid user!");
                     } else {
                         sendResult(membernamemention, msg);
                     }
@@ -60,29 +67,16 @@ public class UserInfoCommand extends Command {
                 if (args[0].matches("^[0-9]*$")) {
                     Member membernameid = msg.getGuild().getMemberById(args[0]);
                     if (membernameid == null) {
-                        sendInvalidUserError(msg, args[0]);
+                        ErrorCreator.invalidArgumentError(msg, "The User \"" + args[0] + "\" isn't a valid user!");
                     } else {
                         sendResult(membernameid, msg);
                     }
                 }else {
-                    sendInvalidUserError(msg, args[0]);
+                    ErrorCreator.invalidArgumentError(msg, "The User \"" + args[0] + "\" isn't a valid user!");
                 }
             }
         }
 
-    }
-
-    public void sendInvalidUserError(Message msg, String str) {
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setColor(Color.red);
-        eb.setAuthor("Invalid User!");
-        eb.setDescription("The User \"" + str + "\" isn't a valid user!");
-        eb.setTimestamp(Instant.now());
-        eb.setFooter("Unknown User Error by " + msg.getAuthor().getName());
-        msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-            result.delete().queueAfter(10, TimeUnit.SECONDS);
-            msg.delete().queueAfter(10, TimeUnit.SECONDS);
-        });
     }
 
     public void sendResult(Member m, Message msg) {
@@ -117,7 +111,6 @@ public class UserInfoCommand extends Command {
         eb.setTimestamp(Instant.now());
         eb.setFooter("Requested by " + msg.getAuthor().getName());
         msg.getChannel().sendMessage(eb.build()).queue();
-
 
     }
 }

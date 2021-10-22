@@ -5,6 +5,7 @@ import bot.necessities.command.Command;
 import bot.necessities.main.Main;
 import bot.necessities.util.JSON;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import org.json.simple.JSONObject;
 
@@ -31,6 +32,11 @@ public class TimeCommand extends Command {
     @Override
     public Category getCategory() {
         return Category.INFORMATION;
+    }
+
+    @Override
+    public Permission requiredPermission() {
+        return null;
     }
 
     @Override

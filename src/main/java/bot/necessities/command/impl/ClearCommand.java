@@ -3,6 +3,7 @@ package bot.necessities.command.impl;
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
+import bot.necessities.util.ErrorCreator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -11,10 +12,10 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import java.awt.*;
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ClearCommand extends Command {
+
     @Override
     public String getAlias() {
         return "clear";
@@ -36,68 +37,38 @@ public class ClearCommand extends Command {
     }
 
     @Override
-    public void onCommand(String command, String[] args, Message msg) throws Exception {
-        if (Objects.requireNonNull(msg.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
-            if (args[0].equals("")) {
-                EmbedBuilder eb = new EmbedBuilder();
-                eb.setColor(new Color(173,216,230));
-                eb.setAuthor("You need to input how many messages you want to clear!");
-                eb.setDescription("Syntax: " + this.getSyntax());
-                eb.setTimestamp(Instant.now());
-                eb.setFooter("Error by " + msg.getAuthor().getName());
-                msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-                    result.delete().queueAfter(10, TimeUnit.SECONDS);
-                    msg.delete().queueAfter(10, TimeUnit.SECONDS);
-                });
-            }else{
-                try {
-                    int clear = Integer.parseInt(args[0]);
-                    MessageChannel msgch = msg.getChannel();
-                    if (clear < 1 || clear > 99) {
-                        EmbedBuilder eb = new EmbedBuilder();
-                        eb.setColor(new Color(173,216,230));
-                        eb.setAuthor("You need to use a Number for Messages to clear");
-                        eb.setDescription("You used \"" + args[0] + "\" instead of a number from 1-99!");
-                        eb.setTimestamp(Instant.now());
-                        eb.setFooter("Error by " + msg.getAuthor().getName());
-                        msg.getChannel().sendMessage(eb.build()).queue();
-                    }else {
-                        clear++;
-                        List<Message> messages = msgch.getHistory().retrievePast(clear).complete();
-                        msgch.purgeMessages(messages);
-                        Thread.sleep(200);
-                        clear--;
-                        EmbedBuilder eb = new EmbedBuilder();
-                        eb.setColor(Color.blue);
-                        eb.setAuthor("Successfully deleted " + clear + " Messages!");
-                        eb.setFooter("Cleared by " + msg.getAuthor().getName());
-                        eb.setTimestamp(Instant.now());
-                        msgch.sendMessage(eb.build()).queue((result) -> result.delete().queueAfter(3, TimeUnit.SECONDS));
+    public Permission requiredPermission() {
+        return Permission.MESSAGE_MANAGE;
+    }
 
-                    }
-                }catch (Exception e) {
+    @Override
+    public void onCommand(String command, String[] args, Message msg) throws Exception {
+
+        if (args[0].equals("")) {
+            ErrorCreator.missingArgumentsError(msg, this, "You need to input how many messages you want to clear!");
+        }else{
+            try {
+                int clear = Integer.parseInt(args[0]);
+                MessageChannel msgch = msg.getChannel();
+                if (clear < 1 || clear > 99) {
+                    ErrorCreator.invalidArgumentError(msg, "You used \"" + args[0] + "\" instead of a number from 1-99!");
+                }else {
+                    clear++;
+                    List<Message> messages = msgch.getHistory().retrievePast(clear).complete();
+                    msgch.purgeMessages(messages);
+                    Thread.sleep(200);
+                    clear--;
                     EmbedBuilder eb = new EmbedBuilder();
-                    eb.setColor(new Color(173,216,230));
-                    eb.setAuthor("You need to use a Number for Messages to clear");
-                    eb.setDescription("You used \"" + args[0] + "\" instead of a number from 1-99!");
+                    eb.setColor(Color.blue);
+                    eb.setAuthor("Successfully deleted " + clear + " Messages!");
+                    eb.setFooter("Cleared by " + msg.getAuthor().getName());
                     eb.setTimestamp(Instant.now());
-                    eb.setFooter("Error by " + msg.getAuthor().getName());
-                    msg.getChannel().sendMessage(eb.build()).queue();
-                    e.printStackTrace();
+                    msgch.sendMessage(eb.build()).queue((result) -> result.delete().queueAfter(2, TimeUnit.SECONDS));
+
                 }
+            }catch (Exception e) {
+                ErrorCreator.invalidArgumentError(msg, "You used \"" + args[0] + "\" instead of a number from 1-99!");
             }
-        }else {
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setColor(Color.red);
-            eb.setAuthor("Missing Permissions!");
-            eb.setDescription("You don't have the Permission to use this Command");
-            eb.addField("Missing Permission:", "MESSAGE_MANAGE", false);
-            eb.setTimestamp(Instant.now());
-            eb.setFooter("Permission Error by " + msg.getAuthor().getName());
-            msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-                result.delete().queueAfter(10, TimeUnit.SECONDS);
-                msg.delete().queueAfter(10, TimeUnit.SECONDS);
-            });
         }
     }
 }

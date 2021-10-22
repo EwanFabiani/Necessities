@@ -3,6 +3,8 @@ package bot.necessities.command.impl;
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
 import bot.necessities.main.Main;
+import bot.necessities.util.ErrorCreator;
+import bot.necessities.util.MiscFunctions;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -11,8 +13,6 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
 import java.time.Instant;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class KickCommand extends Command {
     @Override
@@ -36,76 +36,20 @@ public class KickCommand extends Command {
     }
 
     @Override
-    public void onCommand(String command, String[] args, Message msg) throws Exception {
-        if (Objects.requireNonNull(msg.getMember()).hasPermission(Permission.KICK_MEMBERS)) {
-            if (args[0].isBlank()) {
-                EmbedBuilder eb = new EmbedBuilder();
-                eb.setColor(Color.red);
-                eb.setAuthor("Wrong Arguments!");
-                eb.setDescription("You didn't specify who you want to kick!");
-                eb.addField("Syntax: ", this.getSyntax(), false);
-                eb.setTimestamp(Instant.now());
-                eb.setFooter("Argument Error by " + msg.getAuthor().getName());
-                msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-                    result.delete().queueAfter(10, TimeUnit.SECONDS);
-                    msg.delete().queueAfter(10, TimeUnit.SECONDS);
-                });
-            }else {
-                String mentionid = args[0];
-                //MENTION
-                if (args[0].startsWith("<") && args[0].endsWith(">")) {
-                    mentionid = mentionid.substring(3, mentionid.length()-1);
-
-                    if (mentionid.matches("^[0-9]*$")) {
-                        Member membernamemention = msg.getGuild().getMemberById(mentionid);
-                        if (membernamemention == null) {
-                            sendInvalidUserError(msg, args[0]);
-                        }else {
-                            checkWithMemberResult(membernamemention, msg, args);
-                        }
-                    }
-
-                }else {
-                    if (args[0].matches("^[0-9]*$")) {
-                        Member membernameid = msg.getGuild().getMemberById(args[0]);
-                        if (membernameid == null) {
-                            sendInvalidUserError(msg, args[0]);
-                        }else {
-                            checkWithMemberResult(membernameid, msg, args);
-                        }
-                        //ELSE
-                    }else {
-                        sendInvalidUserError(msg, args[0]);
-                    }
-                }
-            }
-
-        }else {
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setColor(Color.red);
-            eb.setAuthor("Missing Permissions!");
-            eb.setDescription("You don't have the Permission to use this Command");
-            eb.addField("Missing Permission:", "KICK_MEMBERS", false);
-            eb.setTimestamp(Instant.now());
-            eb.setFooter("Permission Error by " + msg.getAuthor().getName());
-            msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-                result.delete().queueAfter(10, TimeUnit.SECONDS);
-                msg.delete().queueAfter(10, TimeUnit.SECONDS);
-            });
-        }
+    public Permission requiredPermission() {
+        return Permission.KICK_MEMBERS;
     }
 
-    public void sendInvalidUserError(Message msg, String str) {
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setColor(Color.red);
-        eb.setAuthor("Invalid User!");
-        eb.setDescription("The User \"" + str + "\" isn't a valid user!");
-        eb.setTimestamp(Instant.now());
-        eb.setFooter("Unknown User Error by " + msg.getAuthor().getName());
-        msg.getChannel().sendMessage(eb.build()).queue((result) -> {
-            result.delete().queueAfter(10, TimeUnit.SECONDS);
-            msg.delete().queueAfter(10, TimeUnit.SECONDS);
-        });
+    @Override
+    public void onCommand(String command, String[] args, Message msg) throws Exception {
+
+        if (args[0].isBlank()) {
+            ErrorCreator.missingArgumentsError(msg, this, "You didn't specify who you want to kick!");
+        }else {
+            Member m = MiscFunctions.getUserFromString(args[0], msg);
+            if (m == null) ErrorCreator.invalidArgumentError(msg, "The User \"" + args[0] + "\" isn't a valid user!");
+            else checkWithMemberResult(m, msg, args);
+        }
     }
 
     public void kickMember (Member m, String[] args, Message msg) {

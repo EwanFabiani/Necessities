@@ -2,6 +2,7 @@ package bot.necessities.command.impl;
 
 import bot.necessities.command.Category;
 import bot.necessities.command.Command;
+import bot.necessities.sql.JDBC;
 import bot.necessities.util.ErrorCreator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -107,7 +108,14 @@ public class UserInfoCommand extends Command {
         eb.addField("Created at: ", m.getTimeCreated().format(formatter) + " UTC", false);
         eb.addField("Joined at: ", m.getTimeJoined().format(formatter) + " UTC", false);
         eb.addField("Roles: ", roles.toString(), false);
-        eb.addField("Necessities Rank: ", "Not finished yet!", false);
+        if (JDBC.getRank(m.getUser().getIdLong()) == null) {
+            eb.addField("Necessities Rank: ", "This Person has never used Necessities!", false);
+        }else {
+            eb.addField("Necessities Rank: ", JDBC.getRank(m.getUser().getIdLong()).toString(), false);
+        }
+
+
+
         eb.setTimestamp(Instant.now());
         eb.setFooter("Requested by " + msg.getAuthor().getName());
         msg.getChannel().sendMessage(eb.build()).queue();

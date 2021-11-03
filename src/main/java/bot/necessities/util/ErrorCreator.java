@@ -56,4 +56,21 @@ public class ErrorCreator {
 
     }
 
+    public static void customError(Message msg, String author, String desc) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setColor(Color.red);
+        eb.setAuthor(author);
+        eb.setDescription(desc);
+        eb.setTimestamp(Instant.now());
+        msg.reply(eb.build()).queue();
+    }
+
+    public static void customError(Message msg, String author) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setColor(Color.red);
+        eb.setAuthor(author);
+        eb.setTimestamp(Instant.now());
+        msg.reply(eb.build()).queue();
+    }
+
 }

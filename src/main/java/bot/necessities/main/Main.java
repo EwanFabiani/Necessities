@@ -36,7 +36,7 @@ public class Main {
 
     public static JDA hacked;
 
-    public static void main(String[] args) throws LoginException, IllegalArgumentException, IOException, ParseException, SQLException {
+    public static void main(String[] args) throws LoginException, IllegalArgumentException, IOException, ParseException, SQLException, ClassNotFoundException {
 
         FileReader file = new FileReader("resources\\info.json");
 
@@ -56,11 +56,6 @@ public class Main {
         System.out.println("Starting the Bot!");
 
         new CommandManager();
-
-
-
-
-
     }
 
     public static void sendErrorMessage(Message msg, Exception exception) {

@@ -57,7 +57,6 @@ public class KickCommand extends Command {
 
         if (args == null) {
             m.kick().queue();
-            System.out.println("Kicked " + m.getUser().getName() + "#" + m.getUser().getDiscriminator() + " from the Server: " + m.getGuild().getName() + " - ID: " + m.getGuild().getId() + " for the Reason: null");
             sendKickMessage(msg, m, "None");
         }else {
 
@@ -68,7 +67,6 @@ public class KickCommand extends Command {
 
             m.kick(reason.toString()).queue();
 
-            System.out.println("Kicked " + m.getUser().getName() + "#" + m.getUser().getDiscriminator() + " from the Server: " + m.getGuild().getName() + " - ID: " + m.getGuild().getId() + " for the Reason: " + reason);
             sendKickMessage(msg, m, reason.toString());
 
         }

@@ -82,7 +82,6 @@ public class BanCommand extends Command {
 
         if (args == null) {
             m.ban(0, null).queue();
-            System.out.println("Banned " + m.getUser().getName() + "#" + m.getUser().getDiscriminator() + " from the Server: " + m.getGuild().getName() + " - ID: " + m.getGuild().getId() + " for the Reason: null");
             sendBanMessage(msg, m, "None");
         }else {
 
@@ -93,7 +92,6 @@ public class BanCommand extends Command {
 
             m.ban(0, reason.toString()).queue();
 
-            System.out.println("Banned " + m.getUser().getName() + "#" + m.getUser().getDiscriminator() + " from the Server: " + m.getGuild().getName() + " - ID: " + m.getGuild().getId() + " for the Reason: " + reason);
             sendBanMessage(msg, m, reason.toString());
 
         }
